@@ -210,11 +210,11 @@ class Browser(Rect):
             else: self.viewer.IMAGE = None
         except IOError: self.viewer.IMAGE = None
     
-    def __init__(self,path=None,scrsize=(700,420)):
+    def __init__(self,path=None,scrsize=(700,420),caption='Pygame Path Getter'):
         Rect.__init__(self,(0,0),scrsize)
         self.scr = display.set_mode(self.size,RESIZABLE)
         key.set_repeat(50,50) 
-        display.set_caption('Pygame Path Getter') 
+        display.set_caption(caption) 
         self.stringpath = form.Form((0,0),0,14)
         self.cancel = Button(image.load(os.path.join(imagesrep,"cancel.png")),image.load(os.path.join(imagesrep,"cancel1.png")))
         self.valid = Button(image.load(os.path.join(imagesrep,"valid.png")),image.load(os.path.join(imagesrep,"valid1.png")),image.load(os.path.join(imagesrep,"valid2.png")))
@@ -398,19 +398,19 @@ class Browser(Rect):
     @property
     def OUTPUT(self): return self.stringpath.OUTPUT
         
-def get(path='',mode=None):
+def get(path='',mode=None,caption='Pygame Path Getter'):
     if not mode in (1,2): mode = None
-    args = ["python", __file__,path,str(mode)]
+    args = ["python", __file__,path,str(mode),caption]
     return subprocess.Popen(args,stdout=subprocess.PIPE).communicate()[0].strip()
 
 if __name__ == '__main__':
     import sys
-    try: path,mode = sys.argv[1],eval(sys.argv[2])
+    try: path,mode,caption = sys.argv[1],eval(sys.argv[2]),sys.argv[3]
     except:
         mode = None
         try: path = sys.argv[1]
         except: path = ''
-    aaa = Browser(path)
+    aaa = Browser(path,caption=caption)
     aaa.valid.ACTIV = False if mode == 1 else True
     aaa.show()
     run = True
