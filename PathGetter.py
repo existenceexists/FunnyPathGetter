@@ -408,11 +408,7 @@ def get(path='',mode=None,caption='Pygame Path Getter',show_hidden_files=False,s
 
 if __name__ == '__main__':
     import sys
-    try: path,mode,caption,show_hidden_files,show_image_preview,show_images_only = sys.argv[1],eval(sys.argv[2]),sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6]
-    except:
-        mode = None
-        try: path = sys.argv[1]
-        except: path = ''
+    path,mode,caption,show_hidden_files,show_image_preview,show_images_only = sys.argv[1],eval(sys.argv[2]),sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6]
     aaa = Browser(path,caption=caption,show_hidden_files=bool(show_hidden_files),show_image_preview=bool(show_image_preview),show_images_only=bool(show_images_only))
     aaa.valid.ACTIV = False if mode == 1 else True
     aaa.show()
