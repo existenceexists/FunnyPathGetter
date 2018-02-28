@@ -89,10 +89,10 @@ class Coche(Rect):
     coche0 = image.load(os.path.join(imagesrep,'button0.png'))
     coche1 = image.load(os.path.join(imagesrep,'button1.png'))
     font = font.Font(os.path.join(thisrep,'MonospaceTypewriter.ttf'),8)
-    def __init__(self,label=''):
+    def __init__(self,label='',status=False):
         Rect.__init__(self,Coche.coche0.get_rect())
         self.scr = display.get_surface()
-        self.status = False
+        self.status = status
         label = Coche.font.render(label,1,(255,255,255))
         Rlabel = label.get_rect()
         Rlabel.midleft = self.midright
@@ -210,7 +210,7 @@ class Browser(Rect):
             else: self.viewer.IMAGE = None
         except IOError: self.viewer.IMAGE = None
     
-    def __init__(self,path=None,scrsize=(700,420),caption='Pygame Path Getter'):
+    def __init__(self,path=None,scrsize=(700,420),caption='Pygame Path Getter',show_hidden_files=False,show_image_preview=False,show_images_only=False):
         Rect.__init__(self,(0,0),scrsize)
         self.scr = display.set_mode(self.size,RESIZABLE)
         key.set_repeat(50,50) 
@@ -219,9 +219,9 @@ class Browser(Rect):
         self.cancel = Button(image.load(os.path.join(imagesrep,"cancel.png")),image.load(os.path.join(imagesrep,"cancel1.png")))
         self.valid = Button(image.load(os.path.join(imagesrep,"valid.png")),image.load(os.path.join(imagesrep,"valid1.png")),image.load(os.path.join(imagesrep,"valid2.png")))
         self.mkdir = Button(transform.scale(image.load(os.path.join(imagesrep,"mkdir.png")),([self.stringpath.height+20]*2)),transform.scale(image.load(os.path.join(imagesrep,"mkdir1.png")),([self.stringpath.height+20]*2)),transform.scale(image.load(os.path.join(imagesrep,"mkdir2.png")),([self.stringpath.height+20]*2)))
-        self.showhidden = Coche('hidden files') if OS not in('WINDOWS',) else NoCoche()
-        self.showviewer = Coche('preview') 
-        self.imagesonly = Coche('images only') 
+        self.showhidden = Coche('hidden files',show_hidden_files) if OS not in('WINDOWS',) else NoCoche()
+        self.showviewer = Coche('preview',show_image_preview) 
+        self.imagesonly = Coche('images only',show_images_only) 
         self._path = getcwd() if not path or not os.path.isabs(path) else os.path.abspath(path)
         self.stringpath.OUTPUT = os.path.join(self._path,'')
         self.mem = True
@@ -398,19 +398,22 @@ class Browser(Rect):
     @property
     def OUTPUT(self): return self.stringpath.OUTPUT
         
-def get(path='',mode=None,caption='Pygame Path Getter'):
+def get(path='',mode=None,caption='Pygame Path Getter',show_hidden_files=False,show_image_preview=False,show_images_only=False):
     if not mode in (1,2): mode = None
-    args = ["python", __file__,path,str(mode),caption]
+    if not show_hidden_files: show_hidden_files=""
+    if not show_image_preview: show_image_preview=""
+    if not show_images_only: show_images_only=""
+    args = ["python", __file__,path,str(mode),caption,str(show_hidden_files),str(show_image_preview),str(show_images_only)]
     return subprocess.Popen(args,stdout=subprocess.PIPE).communicate()[0].strip()
 
 if __name__ == '__main__':
     import sys
-    try: path,mode,caption = sys.argv[1],eval(sys.argv[2]),sys.argv[3]
+    try: path,mode,caption,show_hidden_files,show_image_preview,show_images_only = sys.argv[1],eval(sys.argv[2]),sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6]
     except:
         mode = None
         try: path = sys.argv[1]
         except: path = ''
-    aaa = Browser(path,caption=caption)
+    aaa = Browser(path,caption=caption,show_hidden_files=bool(show_hidden_files),show_image_preview=bool(show_image_preview),show_images_only=bool(show_images_only))
     aaa.valid.ACTIV = False if mode == 1 else True
     aaa.show()
     run = True
