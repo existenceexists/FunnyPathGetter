@@ -233,6 +233,7 @@ class Browser(Rect):
                 break
         self.folders = Lister([],(0,0),(0,0),14)
         self.files = Lister([],(0,0),(0,0),14)
+        self.viewer = Viewer((0,0),(0,0))
         self.pack()
         self.viewer = Viewer((0,0),[min(self.folders.size)/2,]*2)
         self.viewer.bottomright = self.folders.bottomright
@@ -258,6 +259,7 @@ class Browser(Rect):
         self.imagesonly.centerx = self.folders.centerx
         self.showhidden.center = self.valid.center
         self.showhidden.right = self.folders.right
+        self.viewer.bottomright = self.folders.bottomright
         
     def update(self,ev):
         self.valid.update(ev)
