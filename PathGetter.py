@@ -6,10 +6,23 @@ import sys
 from sys import stdout
 thisrep = os.path.dirname(__file__)
 imagesrep = os.path.join(thisrep,'images')
+
+# We must import differently depending on if we import this module or run this module as a script:
+# Python 2 throws ValueError but Python 3 throws ModuleNotFoundError in the same situation:
+error_class=None
 try:
+    # Python 3
+    error_class=ModuleNotFoundError
+except:
+    # Python 2
+    error_class=ValueError
+try:
+    # we use this module as an import
     from .lib.PygameReadWrite import reader,form
-except ModuleNotFoundError:
+except error_class:
+    # we run this module as a script
     from lib.PygameReadWrite import reader,form
+
 from pygame import *
 import subprocess
 from platform import system
