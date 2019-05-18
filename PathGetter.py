@@ -8,7 +8,7 @@ thisrep = os.path.dirname(__file__)
 imagesrep = os.path.join(thisrep,'images')
 try:
     from .lib.PygameReadWrite import reader,form
-except ValueError:
+except ModuleNotFoundError:
     from lib.PygameReadWrite import reader,form
 from pygame import *
 import subprocess
