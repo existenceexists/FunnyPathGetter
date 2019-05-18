@@ -2,6 +2,7 @@
 import os,os.path
 try: from os import getcwdu as getcwd
 except ImportError: from os import getcwd
+import sys
 from sys import stdout
 thisrep = os.path.dirname(__file__)
 imagesrep = os.path.join(thisrep,'images')
@@ -405,11 +406,10 @@ def get(path='',mode=None,caption='Pygame Path Getter',show_hidden_files=False,s
     if not show_hidden_files: show_hidden_files=""
     if not show_image_preview: show_image_preview=""
     if not show_images_only: show_images_only=""
-    args = ["python", __file__,path,str(mode),caption,str(show_hidden_files),str(show_image_preview),str(show_images_only)]
+    args = [sys.executable,__file__,path,str(mode),caption,str(show_hidden_files),str(show_image_preview),str(show_images_only)]
     return subprocess.Popen(args,stdout=subprocess.PIPE).communicate()[0].strip()
 
 if __name__ == '__main__':
-    import sys
     path,mode,caption,show_hidden_files,show_image_preview,show_images_only = sys.argv[1],eval(sys.argv[2]),sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6]
     aaa = Browser(path,caption=caption,show_hidden_files=bool(show_hidden_files),show_image_preview=bool(show_image_preview),show_images_only=bool(show_images_only))
     aaa.valid.ACTIV = False if mode == 1 else True
