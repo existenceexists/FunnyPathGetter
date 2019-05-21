@@ -2,7 +2,9 @@
 from random import randint
 from pygame import *
 from pygame import gfxdraw
-import PathGetter
+import sys
+sys.path.append("..")
+import FunnyPathGetter.PathGetter as PathGetter
 font.init()
 font = font.Font(None,40)
 
@@ -18,7 +20,7 @@ display.flip()
 
 a = []
 c = []
-color = [randint(0,255) for i in 1,2,3]+[50]
+color = [randint(0,255) for i in [1,2,3]]+[50]
 
 while 1:
     ev = event.wait()
@@ -35,7 +37,7 @@ while 1:
             draw.aaline(scr,color,a[-1][0],a[-1][-1],1)
             gfxdraw.filled_polygon(scr,a[-1],color)
             display.flip() 
-        color = [randint(0,255) for i in 1,2,3]+[50]
+        color = [randint(0,255) for i in [1,2,3]]+[50]
     if ev.type == QUIT: break
     if ev.type == KEYDOWN and ev.key == K_s:
         p = PathGetter.get()
