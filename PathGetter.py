@@ -23,6 +23,8 @@ except error_class:
     # we run this module as a script
     from lib.PygameReadWrite import reader,form
 
+# Hide a welcome message when importing pygame
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 from pygame import *
 import subprocess
 from platform import system
